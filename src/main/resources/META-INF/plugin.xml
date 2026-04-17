@@ -1,0 +1,69 @@
+<idea-plugin>
+    <id>com.iolo.gitprefix</id>
+    <name>GitPrefixCommitter</name>
+    <vendor email="support@iolo.com" url="https://www.iolo.com">iolo</vendor>
+
+    <description><![CDATA[
+      <h1>Git Prefix Committer</h1>
+      <p>A simple tool to generate Git commands with a customizable prefix directly from the Commit tool window.</p>
+      <ul>
+        <li>Generate git add and git commit commands with one click.</li>
+        <li>Automatically handles deleted and modified files.</li>
+        <li>Customizable prefix via settings.</li>
+      </ul>
+    ]]></description>
+
+    <change-notes><![CDATA[
+      Initial release: Support generating git commands with custom prefixes in IDEA 2025.3.
+    ]]></change-notes>
+
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.vcs</depends>
+    <depends>Git4Idea</depends>
+    <depends>org.jetbrains.plugins.terminal</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <applicationService serviceImplementation="com.iolo.gitprefix.settings.AppSettingsState"/>
+
+        <applicationConfigurable
+                instance="com.iolo.gitprefix.settings.GitPrefixConfigurable"
+                displayName="Git Prefix Settings"
+                id="com.iolo.gitprefix.settings"/>
+    </extensions>
+
+<!--    <actions>-->
+<!--        <action id="com.iolo.gitprefix.ManualAction"-->
+<!--                class="com.iolo.gitprefix.actions.GitPrefixCommitAction"-->
+<!--                text="Generate Prefix Command"-->
+<!--                description="Generate git command with predefined prefix"-->
+<!--                icon="com.iolo.gitprefix.MyIcons.GitPrefixCommitter">-->
+<!--            <add-to-group group-id="Vcs.Commit.PrimaryCommitActions" anchor="first"/>-->
+<!--        </action>-->
+
+<!--        <action id="com.iolo.gitprefix.AutoAction"-->
+<!--                class="com.iolo.gitprefix.actions.AutoGitPrefixAction"-->
+<!--                text="Generate and Run Instantly (Auto)"-->
+<!--                icon="/icons/googleStyleAuto.svg">-->
+<!--            <add-to-group group-id="Vcs.Commit.PrimaryCommitActions" anchor="after"-->
+<!--                          relative-to-action="com.iolo.gitprefix.ManualAction"/>-->
+<!--        </action>-->
+<!--    </actions>-->
+
+    <actions>
+        <action id="GitPrefix.Manual" class="com.iolo.gitprefix.actions.ManualGitPrefixAction"
+                text="Generate and Review"
+                description="Generate git command with predefined prefix"
+                icon="com.iolo.gitprefix.MyIcons.GitPrefixCommitterManual">
+            <add-to-group group-id="Vcs.Commit.PrimaryCommitActions" anchor="first"/>
+        </action>
+
+        <action id="GitPrefix.Auto" class="com.iolo.gitprefix.actions.AutoGitPrefixAction"
+                text="Generate and Run Instantly"
+                description="Automation running git command predefined prefix"
+                icon="com.iolo.gitprefix.MyIcons.GitPrefixCommitterAutomation">
+            <add-to-group group-id="Vcs.Commit.PrimaryCommitActions" anchor="after"
+                          relative-to-action="GitPrefix.Manual"/>
+        </action>
+    </actions>
+</idea-plugin>
